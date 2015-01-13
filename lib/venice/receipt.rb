@@ -39,7 +39,7 @@ module Venice
         @original_purchase_date = DateTime.parse(attributes['original_purchase_date'])
       end
       if attributes['expiration_date']
-        @expires_at = Time.at(attributes['expiration_date'].to_i / 1000).to_datetime
+        @expires_at = DateTime.parse(attributes['expiration_date'])
       end
 
       @receipt_type = attributes['receipt_type']
