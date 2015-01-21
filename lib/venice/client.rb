@@ -41,8 +41,9 @@ module Venice
         # From Apple docs:
         # > Only returned for iOS 6 style transaction receipts for auto-renewable subscriptions.
         # > The JSON representation of the receipt for the most recent renewal
-        if latest_receipt_info_attributes = json['latest_receipt_info']
-          receipt.latest_receipt = Receipt.new(latest_receipt_info_attributes)
+        if latest_receipt_info = json['latest_receipt_info']
+          latest_receipt_info = latest_receipt_info.first unless latest_receipt_info.respond_to?(:keys)
+          receipt.latest_receipt = Receipt.new(latest_receipt_info)
         end
 
         return receipt
