@@ -84,16 +84,19 @@ module Venice
 
       def verify!(data, options = {})
         client = Client.production
-
+	      client.shared_secret = options[:shared_secret] if options.has_key?(:shared_secret)
         begin
           client.verify!(data, options)
         rescue VerificationError => error
+          puts error
           case error.code
           when 21007
             client = Client.development
+	          client.shared_secret = options[:shared_secret] if options.has_key?(:shared_secret)
             retry
           when 21008
             client = Client.production
+	          client.shared_secret = options[:shared_secret] if options.has_key?(:shared_secret)
             retry
           else
             raise error
